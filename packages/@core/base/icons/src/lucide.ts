@@ -22,6 +22,7 @@ export {
   Copy,
   CornerDownLeft,
   Ellipsis,
+  EllipsisVertical,
   Expand,
   ExternalLink,
   Eye,

@@ -1,0 +1,82 @@
+<script lang="ts" setup>
+import type {
+  OnActionClickParams,
+  VxeTableGridOptions,
+} from '#/adapter/vxe-table';
+import type { SysHttpLogApi } from '#/api';
+
+import { Page, useVbenDrawer } from '@vben/common-ui';
+
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { getSysHttpLogList } from '#/api/basis/monitor/sysHttpLog';
+
+import { useColumns, useGridFormSchema } from './data';
+import OpenLogDrawer from './modules/openLogDrawer.vue';
+
+const [OperLogDrawer, operLogDrawerApi] = useVbenDrawer({
+  connectedComponent: OpenLogDrawer,
+});
+
+/**
+ * 表格操作按钮的回调函数
+ */
+function onActionClick({
+  code,
+  row,
+}: OnActionClickParams<SysHttpLogApi.SysHttpLog>) {
+  switch (code) {
+    case 'append': {
+      onAppend(row);
+      break;
+    }
+  }
+}
+
+function onAppend(row: SysHttpLogApi.SysHttpLog) {
+  operLogDrawerApi.setData(row).open();
+}
+
+const [Grid] = useVbenVxeGrid({
+  gridEvents: {},
+  formOptions: {
+    fieldMappingTime: [['createdTime', ['startTime', 'endTime']]],
+    schema: useGridFormSchema(),
+    // 是否在字段值改变时提交表单
+    submitOnChange: false,
+  },
+  gridOptions: {
+    columns: useColumns(onActionClick),
+    height: 'auto',
+    keepSource: true,
+    proxyConfig: {
+      ajax: {
+        query: async ({ page }, formValues) => {
+          return await getSysHttpLogList({
+            pageNum: page.currentPage,
+            pageSize: page.pageSize,
+            logType: 'REQUEST',
+            ...formValues,
+          });
+        },
+      },
+    },
+    toolbarConfig: {
+      custom: true,
+      export: false,
+      refresh: { code: 'query' },
+      zoom: false,
+    },
+    treeConfig: {
+      parentField: 'parentId',
+      rowField: 'id',
+      transform: false,
+    },
+  } as VxeTableGridOptions,
+});
+</script>
+<template>
+  <Page auto-content-height>
+    <OperLogDrawer />
+    <Grid table-title="操作日志列表" />
+  </Page>
+</template>

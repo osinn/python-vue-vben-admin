@@ -26,6 +26,7 @@
     "#/*": "./src/*"
   },
   "dependencies": {
+    "@vben-core/menu-ui": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",
@@ -45,6 +46,13 @@
     "dayjs": "catalog:",
     "pinia": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:"
+    "vue-router": "catalog:",
+    "vue3-tree-org": "^4.2.2",
+    "file-type": "^19.5.0",
+    "js-cookie": "^3.0.5",
+    "jsencrypt": "^3.3.2"
+  },
+  "devDependencies": {
+    "vite-plugin-svg-icons": "^2.0.1"
   }
 }

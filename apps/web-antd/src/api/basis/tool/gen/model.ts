@@ -1,0 +1,122 @@
+export interface Columns {
+  createBy?: string;
+  createTime?: string;
+  updateBy?: string;
+  updateTime?: string;
+  remark?: any;
+  columnId?: any;
+  tableId?: number;
+  columnName?: any;
+  columnComment?: any;
+  columnType?: any;
+  javaType?: any;
+  javaField?: any;
+  isPk?: any;
+  isIncrement?: any;
+  isRequired?: any;
+  isInsert?: any;
+  isEdit?: any;
+  isList?: any;
+  isQuery?: any;
+  queryType?: any;
+  htmlType?: any;
+  dictType?: any;
+  sort?: any;
+  list?: boolean;
+  insert?: boolean;
+  edit?: boolean;
+  usableColumn?: boolean;
+  superColumn?: boolean;
+  required?: boolean;
+  pk?: boolean;
+  query?: boolean;
+  increment?: boolean;
+  capJavaField?: any;
+}
+export interface Gen {
+  createBy?: string;
+  createTime?: string;
+  updateBy?: string;
+  updateTime?: string;
+  remark?: any;
+  tableId?: string;
+  tableName?: string;
+  tableComment?: string;
+  subTableName?: any;
+  subTableFkName?: any;
+  className?: string;
+  tplCategory?: string;
+  tplWebType?: string;
+  packageName?: string;
+  moduleName?: string;
+  businessName?: string;
+  functionName?: string;
+  functionAuthor?: string;
+  genType?: string;
+  genPath?: string;
+  pkColumn?: any;
+  subTable?: any;
+  columns?: Columns[];
+  options?: string;
+  treeCode?: any;
+  treeParentCode?: any;
+  treeName?: any;
+  parentMenuId?: any;
+  parentMenuName?: any;
+  sub?: boolean;
+  tree?: boolean;
+  crud?: boolean;
+  tooltipFieldName?: string;
+  statusFieldName?: string;
+}
+
+export interface CodeTemp {
+  'vm/java/controller.java.vm'?: string;
+  'vm/java/domain.java.vm'?: string;
+  'vm/java/mapper.java.vm'?: string;
+  'vm/java/service.java.vm'?: string;
+  'vm/java/serviceImpl.java.vm'?: string;
+  'vm/js/api.js.vm'?: string;
+  'vm/sql/sql.vm'?: string;
+  'vm/vue/index.vue.vm'?: string;
+  'vm/xml/mapper.xml.vm'?: string;
+}
+export interface TableInfo {
+  createBy?: any;
+  createTime?: any;
+  updateBy?: any;
+  updateTime?: any;
+  remark?: any;
+  tableId?: string;
+  tableName?: string;
+  tableComment?: string;
+  subTableName?: any;
+  subTableFkName?: any;
+  className?: string;
+  tplCategory?: string;
+  tplWebType?: string;
+  packageName?: string;
+  moduleName?: string;
+  businessName?: string;
+  functionName?: string;
+  functionAuthor?: string;
+  genType?: string;
+  genPath?: string;
+  pkColumn?: any;
+  subTable?: any;
+  columns?: Columns[];
+  options?: string;
+  treeCode?: any;
+  treeParentCode?: any;
+  treeName?: any;
+  parentMenuId?: any;
+  parentMenuName?: any;
+  sub?: boolean;
+  tree?: boolean;
+  crud?: boolean;
+}
+export interface TableDetail {
+  info: TableInfo;
+  rows: Columns[];
+  tables: TableInfo[];
+}

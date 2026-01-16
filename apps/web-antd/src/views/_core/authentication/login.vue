@@ -1,73 +1,63 @@
 <script lang="ts" setup>
 import type { VbenFormSchema } from '@vben/common-ui';
-import type { BasicOption } from '@vben/types';
 
-import { computed, markRaw } from 'vue';
+import { computed } from 'vue';
 
-import { AuthenticationLogin, SliderCaptcha, z } from '@vben/common-ui';
+import { AuthenticationLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { getPublicKeyApi } from '#/api';
 import { useAuthStore } from '#/store';
+import { RSAdecrypt, RSAencrypt } from '#/utils/decryptUtil';
+import { useSystemStore } from '#/utils/storeHelper';
+import { generateUUID } from '#/utils/toolUtils';
 
 defineOptions({ name: 'Login' });
 
 const authStore = useAuthStore();
 
-const MOCK_USER_OPTIONS: BasicOption[] = [
-  {
-    label: 'Super',
-    value: 'vben',
-  },
-  {
-    label: 'Admin',
-    value: 'admin',
-  },
-  {
-    label: 'User',
-    value: 'jack',
-  },
-];
+const REMEMBER_ME_KEY = `REMEMBER_ME_USERNAME_${location.hostname}`;
 
+interface RememberMeLoginForm {
+  /** 登录表单记住账号 */
+  account: string;
+  /** 登录表单记住密码 */
+  password: string;
+}
 const formSchema = computed((): VbenFormSchema[] => {
+  let account = '';
+  let password = '';
+
+  const localRememberMe = localStorage.getItem(REMEMBER_ME_KEY);
+  const rememberMe = !!localRememberMe;
+  if (rememberMe) {
+    try {
+      const decrypt: null | string = useSystemStore.getStore(REMEMBER_ME_KEY);
+      if (decrypt) {
+        const data = RSAdecrypt(
+          decrypt,
+          import.meta.env.VITE_USE_RSA_PRIVATE_KEY,
+        ) as string;
+        if (data) {
+          const rememberMeLoginForm: RememberMeLoginForm = JSON.parse(data);
+          account = rememberMeLoginForm.account;
+          password = rememberMeLoginForm.password;
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return [
-    {
-      component: 'VbenSelect',
-      componentProps: {
-        options: MOCK_USER_OPTIONS,
-        placeholder: $t('authentication.selectAccount'),
-      },
-      fieldName: 'selectAccount',
-      label: $t('authentication.selectAccount'),
-      rules: z
-        .string()
-        .min(1, { message: $t('authentication.selectAccount') })
-        .optional()
-        .default('vben'),
-    },
     {
       component: 'VbenInput',
       componentProps: {
-        placeholder: $t('authentication.usernameTip'),
+        placeholder: '请输入账号',
       },
-      dependencies: {
-        trigger(values, form) {
-          if (values.selectAccount) {
-            const findUser = MOCK_USER_OPTIONS.find(
-              (item) => item.value === values.selectAccount,
-            );
-            if (findUser) {
-              form.setValues({
-                password: '123456',
-                username: findUser.value,
-              });
-            }
-          }
-        },
-        triggerFields: ['selectAccount'],
-      },
-      fieldName: 'username',
+      fieldName: 'account',
+      defaultValue: account,
       label: $t('authentication.username'),
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      rules: z.string().min(1, { message: '请输入账号' }),
     },
     {
       component: 'VbenInputPassword',
@@ -75,24 +65,62 @@ const formSchema = computed((): VbenFormSchema[] => {
         placeholder: $t('authentication.password'),
       },
       fieldName: 'password',
+      defaultValue: password,
       label: $t('authentication.password'),
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
-    {
-      component: markRaw(SliderCaptcha),
-      fieldName: 'captcha',
-      rules: z.boolean().refine((value) => value, {
-        message: $t('authentication.verifyRequiredTip'),
-      }),
-    },
   ];
 });
+
+const authLogin = async (values: Record<string, any>) => {
+  values.account = values.account.trim();
+  values.password = values.password.trim();
+  const localRememberMe = localStorage.getItem(REMEMBER_ME_KEY);
+  const rememberMe = !!localRememberMe;
+
+  if (rememberMe) {
+    try {
+      const rememberMeLoginForm: RememberMeLoginForm = {
+        password: values.password,
+        account: values.account,
+      };
+      const str = RSAencrypt(
+        JSON.stringify(rememberMeLoginForm),
+        import.meta.env.VITE_USE_RSA_PUBLIC_KEY,
+      ) as string;
+      useSystemStore.setStore(REMEMBER_ME_KEY, str);
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+    useSystemStore.removeStore(REMEMBER_ME_KEY);
+  }
+
+  try {
+    authStore.loginLoading = true;
+    const ticket = generateUUID(true);
+    const publicKey = await getPublicKeyApi({ ticket });
+    values.password = RSAencrypt(values.password, publicKey);
+    values.ticket = ticket;
+  } catch (error) {
+    console.log('获取加密密钥失败', error);
+    authStore.loginLoading = false;
+  }
+
+  await authStore.authLogin(values);
+};
 </script>
 
 <template>
   <AuthenticationLogin
     :form-schema="formSchema"
     :loading="authStore.loginLoading"
-    @submit="authStore.authLogin"
+    :show-code-login="false"
+    :show-forget-password="false"
+    :show-qrcode-login="false"
+    :show-register="false"
+    :show-third-party-login="false"
+    :show-remember-me="true"
+    @submit="authLogin"
   />
 </template>

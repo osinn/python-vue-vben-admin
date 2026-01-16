@@ -16,6 +16,10 @@ export namespace AuthApi {
     data: string;
     status: number;
   }
+
+  export interface TicketParams {
+    ticket: string;
+  }
 }
 
 /**
@@ -48,4 +52,11 @@ export async function logoutApi() {
  */
 export async function getAccessCodesApi() {
   return requestClient.get<string[]>('/auth/codes');
+}
+
+/**
+ * 获取加密公钥
+ */
+export async function getPublicKeyApi(data: AuthApi.TicketParams) {
+  return requestClient.get<string>('/auth/get_auth_key', { params: data });
 }

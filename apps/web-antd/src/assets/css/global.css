@@ -1,0 +1,9 @@
+:root {
+  --vite-svg-icon-color: #303133;
+  --vite-svg-icon-font-size: 1rem;
+}
+
+.vite-svg-icon-font {
+  font-size: var(--vite-svg-icon-font-size);
+  color: var(--vite-svg-icon-color);
+}

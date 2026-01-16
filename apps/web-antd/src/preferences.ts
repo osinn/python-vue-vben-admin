@@ -9,5 +9,25 @@ export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
     name: import.meta.env.VITE_APP_TITLE,
+    accessMode: 'backend',
+    enablePreferences: false,
+  },
+  logo: {
+    enable: true,
+    fit: 'contain',
+    source:
+      'https://foruda.gitee.com/avatar/1742123137744217697/992057_w160_1742123137.png!avatar200',
+  },
+  widget: {
+    themeToggle: false,
+  },
+  theme: {
+    mode: 'light',
+  },
+  footer: {
+    enable: false,
+  },
+  copyright: {
+    enable: false,
   },
 });

@@ -13,8 +13,7 @@ import {
 } from '@vben/request';
 import { useAccessStore } from '@vben/stores';
 
-import { message } from 'ant-design-vue';
-
+import { notification } from '#/components/message/useMessage';
 import { useAuthStore } from '#/store';
 
 import { refreshTokenApi } from './core';
@@ -76,7 +75,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     defaultResponseInterceptor({
       codeField: 'code',
       dataField: 'data',
-      successCode: 0,
+      successCode: 200,
     }),
   );
 
@@ -99,7 +98,8 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       const responseData = error?.response?.data ?? {};
       const errorMessage = responseData?.error ?? responseData?.message ?? '';
       // 如果没有错误信息，则会根据状态码进行提示
-      message.error(errorMessage || msg);
+      // message.error(errorMessage || msg);
+      notification.error(errorMessage || msg);
     }),
   );
 
