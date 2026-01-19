@@ -16,7 +16,7 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       component: 'Input',
-      fieldName: 'postCode',
+      fieldName: 'post_code',
       label: '岗位编码',
       rules: 'required',
     },
@@ -24,12 +24,12 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'RadioGroup',
       fieldName: 'status',
       label: '状态',
-      defaultValue: 'ENABLE',
+      defaultValue: 1,
       componentProps: {
         isButton: true,
         options: [
-          { label: '已启用', value: 'ENABLE' },
-          { label: '已禁用', value: 'DISABLE' },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 2 },
         ],
       },
     },
@@ -61,20 +61,20 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'searchKey',
+      fieldName: 'search_key',
       label: '搜索关键字',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         placeholder: '请输入岗位名称/岗位编号',
       },
     },
     {
       component: 'Select',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         options: [
-          { label: '已启用', value: 'ENABLE' },
-          { label: '已禁用', value: 'DISABLE' },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 2 },
         ],
         placeholder: '请选择状态',
       },
@@ -95,7 +95,7 @@ export function useColumns<T = SystemPostApi.SystemPost>(
       width: 200,
     },
     {
-      field: 'postCode',
+      field: 'post_code',
       title: '岗位编码',
       width: 200,
     },
@@ -122,22 +122,22 @@ export function useColumns<T = SystemPostApi.SystemPost>(
       title: '备注',
     },
     {
-      field: 'createdTime',
+      field: 'created_time',
       title: '创建时间',
       width: 200,
     },
     {
-      field: 'createdByName',
+      field: 'created_by_name',
       title: '创建人',
       width: 150,
     },
     {
-      field: 'updatedTime',
+      field: 'updated_time',
       title: '更新时间',
       width: 200,
     },
     {
-      field: 'updatedByName',
+      field: 'updated_by_name',
       title: '更新人',
       width: 150,
     },

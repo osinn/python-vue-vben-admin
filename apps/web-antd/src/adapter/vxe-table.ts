@@ -114,7 +114,7 @@ setupVbenVxeTable({
                 typeof attrs.disabled === 'function'
                   ? attrs.disabled(row)
                   : attrs.disabled;
-
+              console.log('row', row.is_default, row.is_default === 1, isDisabled);
               if (isDisabled) {
                 return true;
               }

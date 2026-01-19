@@ -113,6 +113,7 @@ async function onStatusChange(
       icon: 'question',
     });
     await changeUserStatus({ id: row.id, status: newStatus });
+    notification.success(`${row.nickname} 状态设置成功`);
     return true;
   } catch {
     return false;

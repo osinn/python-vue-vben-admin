@@ -44,7 +44,7 @@ const [Modal, modalApi] = useVbenModal({
     )
       .then(() => {
         notification.success(
-          `${formData.value?.id ? `编辑【${values.dictItemName}】成功` : `新增【${values.dictItemName}】成功`}`,
+          `${formData.value?.id ? `编辑【${values.dict_item_name}】成功` : `新增【${values.dict_item_name}】成功`}`,
         );
         modalApi.close();
         emit('success');

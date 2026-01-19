@@ -9,7 +9,7 @@ export namespace SystemPostApi {
     name: string;
     post_code: string;
     remark?: string;
-    status: string;
+    status: number;
     sort: number;
     created_by_name: string;
     created_time: string;
@@ -22,7 +22,7 @@ export namespace SystemPostApi {
     /** 岗位名称/岗位编码 */
     search_key?: string;
     /** 状态 */
-    status?: string;
+    status?: number;
   }
   export interface DeptPostQuery {
     page_num?: number;
@@ -36,10 +36,10 @@ export namespace SystemPostApi {
 /**
  * 分页获取列表数据
  */
-async function fetchPostList(params: SystemPostApi.PageParams) {
+async function fetchPostList(data: SystemPostApi.PageParams) {
   return requestClient.post<Array<SystemPostApi.SystemPost>>(
-    '/system/post/fetchPostList',
-    params,
+    '/system/post/get_post_list',
+    data,
   );
 }
 
@@ -48,8 +48,8 @@ async function fetchPostList(params: SystemPostApi.PageParams) {
  */
 async function fetchPostListAll(data: SystemPostApi.SystemPost) {
   return requestClient.post<Array<SystemPostApi.SystemPost>>(
-    '/system/post/fetchPostListAll',
-    data,
+    '/system/post/get_post_list_all',
+    {params: data}
   );
 }
 
@@ -58,7 +58,7 @@ async function fetchPostListAll(data: SystemPostApi.SystemPost) {
  * @param data 创建数据
  */
 async function createPost(data: Omit<SystemPostApi.SystemPost, 'id'>) {
-  return requestClient.post('/system/post/add', data);
+  return requestClient.post('/system/post/add_post', data);
 }
 
 /**
@@ -71,7 +71,7 @@ async function updatePost(
   id: string,
   data: Omit<SystemPostApi.SystemPost, 'id'>,
 ) {
-  return requestClient.post(`/system/post/edit`, { ...data, id });
+  return requestClient.put(`/system/post/edit_post`, { ...data, id });
 }
 
 /**
@@ -81,7 +81,7 @@ async function updatePost(
  * @param data 状态
  */
 async function changePostStatus(data: Recordable<any>) {
-  return requestClient.post(`/system/post/changePostStatus`, data);
+  return requestClient.put(`/system/post/sys_post_change_status`, data);
 }
 
 /**
@@ -89,7 +89,7 @@ async function changePostStatus(data: Recordable<any>) {
  * @param id ID
  */
 async function deletePost(id: string) {
-  return requestClient.post(`/system/post/delete`, { ids: [id] });
+  return requestClient.delete(`/system/post/${id}/delete_dept`);
 }
 
 /**
@@ -105,7 +105,7 @@ async function getDeptPostListByDeptId(data: SystemPostApi.DeptPostQuery) {
  * @param deptId ID 部门ID
  */
 async function addDeptPost(data: Recordable<any>) {
-  return requestClient.post(`/system/post/addDeptPost`, data);
+  return requestClient.post(`/system/post/add_dept_post`, data);
 }
 
 /**
@@ -113,7 +113,7 @@ async function addDeptPost(data: Recordable<any>) {
  * @param deptId ID 部门ID
  */
 async function deleteDeptPost(data: Recordable<any>) {
-  return requestClient.post(`/system/post/deleteDeptPost`, data);
+  return requestClient.put(`/system/post/delete_dept_post`, data);
 }
 
 export {

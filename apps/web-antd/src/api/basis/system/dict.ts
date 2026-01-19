@@ -9,8 +9,8 @@ export namespace SystemDictApi {
     dict_code: string;
     dict_name: string;
     remark?: string;
-    status?: string;
-    is_default: boolean;
+    status?: number;
+    is_default: number;
     created_by_name: string;
     created_time: string;
     updated_by_name: string;
@@ -23,7 +23,7 @@ export namespace SystemDictApi {
  */
 async function fetchDictList(data: Recordable<any>) {
   return requestClient.post<Array<SystemDictApi.SystemDict>>(
-    '/system/dict/fetchDictList',
+    '/system/dict/get_dict_list',
     data,
   );
 }
@@ -33,7 +33,7 @@ async function fetchDictList(data: Recordable<any>) {
  */
 async function createDict(data: Omit<SystemDictApi.SystemDict, 'id'>) {
   return requestClient.post<Array<SystemDictApi.SystemDict>>(
-    '/system/dict/addDict',
+    '/system/dict/add_dict',
     data,
   );
 }
@@ -45,8 +45,8 @@ async function updateDict(
   id: string,
   data: Omit<SystemDictApi.SystemDict, 'id'>,
 ) {
-  return requestClient.post<Array<SystemDictApi.SystemDict>>(
-    '/system/dict/editDict',
+  return requestClient.put<Array<SystemDictApi.SystemDict>>(
+    '/system/dict/edit_dict',
     { ...data, id },
   );
 }
@@ -56,7 +56,7 @@ async function updateDict(
  * @param id ID
  */
 async function deleteDict(id: string) {
-  return requestClient.post(`/system/dict/deleteDict`, { ids: [id] });
+  return requestClient.delete(`/system/dict/${id}/delete_dict`);
 }
 
 /**
@@ -66,7 +66,7 @@ async function deleteDict(id: string) {
  * @param data 状态
  */
 async function changeStatus(data: Recordable<any>) {
-  return requestClient.post(`/system/dict/changeDictStatus`, data);
+  return requestClient.put(`/system/dict/dict_change_status`, data);
 }
 
 export { changeStatus, createDict, deleteDict, fetchDictList, updateDict };

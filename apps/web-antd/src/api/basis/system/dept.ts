@@ -21,9 +21,9 @@ export namespace SystemDeptApi {
 /**
  * 获取部门列表数据
  */
-async function fetchDeptAllTree() {
+async function fetchDeptAllTree(data?: Recordable<any>) {
   return requestClient.get<Array<SystemDeptApi.SystemDept>>(
-    '/system/dept/get_dept_all_tree',
+    '/system/dept/get_dept_all_tree', {params: data}
   );
 }
 
@@ -64,11 +64,11 @@ async function updateDept(
  * @param id 部门 ID
  */
 async function deleteDept(id: string) {
-  return requestClient.post(`/system/dept/${id}/delete_dept`);
+  return requestClient.delete(`/system/dept/${id}/delete_dept`);
 }
 
 /**
- * 获取全部部门类型
+ * 获取全部部门类型,过时
  */
 async function fetchOrgTypeAll() {
   return requestClient.post(`/system/dept/fetchOrgTypeAll`);

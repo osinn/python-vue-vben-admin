@@ -103,6 +103,7 @@ export function useColumns<T = SysConfigApi.SysConfig>(
           beforeChange: onStatusChange,
           hasAccessByCodes: ['system:sysConfig:edit'],
           disabled: (row: SysConfigApi.SysConfig) => {
+            console.log('row', row.is_default, row.is_default === 1);
             return row.is_default === 1;
           },
         },
@@ -243,7 +244,7 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'RadioGroup',
       fieldName: 'status',
       label: '状态',
-      defaultValue: 0,
+      defaultValue: 1,
       componentProps: {
         isButton: true,
         options: [

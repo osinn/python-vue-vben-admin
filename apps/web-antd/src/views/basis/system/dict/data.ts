@@ -10,7 +10,7 @@ export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'RadioGroup',
-      fieldName: 'isDefault',
+      fieldName: 'is_default',
       dependencies: {
         triggerFields: [''],
         show: () => false,
@@ -18,19 +18,19 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       component: 'Input',
-      fieldName: 'dictName',
+      fieldName: 'dict_name',
       label: '字典名称',
       rules: 'required',
     },
     {
       component: 'Input',
-      fieldName: 'dictCode',
+      fieldName: 'dict_code',
       label: '字典编码',
       rules: 'required',
       dependencies: {
-        triggerFields: ['isDefault'],
+        triggerFields: ['is_default'],
         disabled(values) {
-          return values.isDefault;
+          return values.is_default;
         },
       },
     },
@@ -38,18 +38,18 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'RadioGroup',
       fieldName: 'status',
       label: '状态',
-      defaultValue: 'ENABLE',
+      defaultValue: 1,
       dependencies: {
-        triggerFields: ['isDefault'],
+        triggerFields: ['is_default'],
         disabled(values) {
-          return values.isDefault;
+          return values.is_default === 1;
         },
       },
       componentProps: {
         isButton: true,
         options: [
-          { label: '已启用', value: 'ENABLE' },
-          { label: '已禁用', value: 'DISABLE' },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 2 },
         ],
       },
     },
@@ -70,20 +70,20 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'searchKey',
+      fieldName: 'search_key',
       label: '搜索关键字',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         placeholder: '请输入字典名称/字典编码',
       },
     },
     {
       component: 'Select',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         options: [
-          { label: '已启用', value: 'ENABLE' },
-          { label: '已禁用', value: 'DISABLE' },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 2 },
         ],
         placeholder: '请选择状态',
       },
@@ -93,14 +93,14 @@ export function useGridFormSchema(): VbenFormSchema[] {
     {
       component: 'Select',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         options: [
-          { label: '是', value: true },
-          { label: '否', value: false },
+          { label: '是', value: 1 },
+          { label: '否', value: 2 },
         ],
         placeholder: '请选择',
       },
-      fieldName: 'isDefault',
+      fieldName: 'is_default',
       label: '是否系统默认',
     },
   ];
@@ -112,12 +112,12 @@ export function useColumns<T = SystemDictApi.SystemDict>(
 ): VxeTableGridOptions['columns'] {
   return [
     {
-      field: 'dictCode',
+      field: 'dict_code',
       title: '字典编码',
       width: 200,
     },
     {
-      field: 'dictName',
+      field: 'dict_name',
       title: '字典名称',
       width: 200,
     },
@@ -127,7 +127,7 @@ export function useColumns<T = SystemDictApi.SystemDict>(
           beforeChange: onStatusChange,
           hasAccessByCodes: ['system:dict:edit'],
           disabled: (row: SystemDictApi.SystemDict) => {
-            return row.isDefault;
+            return row.is_default === 1;
           },
         },
         name: 'CellSwitch',
@@ -137,14 +137,14 @@ export function useColumns<T = SystemDictApi.SystemDict>(
       width: 200,
     },
     {
-      field: 'isDefault',
+      field: 'is_default',
       title: '系统内置',
       width: 200,
       cellRender: {
         name: 'CellTag',
         options: [
-          { color: 'processing', label: '否', value: false },
-          { color: 'red', label: '是', value: true },
+          { color: 'processing', label: '否', value: 2 },
+          { color: 'red', label: '是', value: 1 },
         ],
       },
     },
@@ -154,7 +154,7 @@ export function useColumns<T = SystemDictApi.SystemDict>(
       title: '备注',
     },
     {
-      field: 'createdTime',
+      field: 'created_time',
       title: '创建时间',
       width: 200,
     },
@@ -162,7 +162,7 @@ export function useColumns<T = SystemDictApi.SystemDict>(
       align: 'center',
       cellRender: {
         attrs: {
-          nameField: 'dictName',
+          nameField: 'dict_name',
           nameTitle: '字典',
           onClick: onActionClick,
         },
@@ -181,7 +181,7 @@ export function useColumns<T = SystemDictApi.SystemDict>(
             code: 'delete',
             show: hasAccessByCodes(['system:dict:delete']),
             disabled: (row: SystemDictApi.SystemDict) => {
-              return row.isDefault;
+              return row.is_default === 1;
             },
           },
         ],

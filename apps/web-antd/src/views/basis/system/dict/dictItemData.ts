@@ -10,7 +10,7 @@ export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'dictId',
+      fieldName: 'dict_id',
       dependencies: {
         triggerFields: [''],
         show: () => false,
@@ -18,35 +18,35 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       component: 'RadioGroup',
-      fieldName: 'isDefault',
+      fieldName: 'is_default',
       dependencies: {
-        triggerFields: ['isDefault'],
+        triggerFields: ['is_default'],
         show: () => false,
       },
     },
     {
       component: 'Input',
-      fieldName: 'dictItemName',
+      fieldName: 'dict_item_name',
       label: '字典项名称',
       rules: 'required',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         placeholder: '请输入字典项名称',
       },
     },
     {
       component: 'Input',
-      fieldName: 'dictItemCode',
+      fieldName: 'dict_item_code',
       label: '字典项值',
       rules: 'required',
       dependencies: {
         disabled: (values) => {
-          return values.isDefault;
+          return values.is_default === 1;
         },
-        triggerFields: ['isDefault'],
+        triggerFields: ['is_default'],
       },
       componentProps: {
-        clearable: true,
+        allowClear: true,
         placeholder: '请输入字典项值',
       },
     },
@@ -92,24 +92,24 @@ export function useColumns<T = SystemDictItemApi.SystemDictItem>(
 ): VxeTableGridOptions['columns'] {
   return [
     {
-      field: 'dictItemCode',
-      title: '字典项编码',
-      width: 200,
-    },
-    {
-      field: 'dictItemName',
+      field: 'dict_item_name',
       title: '字典项名称',
       width: 200,
     },
     {
-      field: 'isDefault',
+      field: 'dict_item_code',
+      title: '字典项编码',
+      width: 200,
+    },
+    {
+      field: 'is_default',
       title: '系统内置',
       width: 100,
       cellRender: {
         name: 'CellTag',
         options: [
-          { color: 'processing', label: '否', value: false },
-          { color: 'red', label: '是', value: true },
+          { color: 'processing', label: '否', value: 2 },
+          { color: 'red', label: '是', value: 1 },
         ],
       },
     },
@@ -117,7 +117,7 @@ export function useColumns<T = SystemDictItemApi.SystemDictItem>(
       align: 'center',
       cellRender: {
         attrs: {
-          nameField: 'dictItemName',
+          nameField: 'dict_item_name',
           nameTitle: '字典项',
           onClick: onActionClick,
         },
@@ -131,7 +131,7 @@ export function useColumns<T = SystemDictItemApi.SystemDictItem>(
             code: 'delete',
             show: hasAccessByCodes(['system:dictItem:delete']),
             disabled: (row: SystemDictItemApi.SystemDictItem) => {
-              return row.isDefault;
+              return row.is_default === 1;
             },
           },
         ],

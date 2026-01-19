@@ -44,8 +44,8 @@ const [Grid, gridApi] = useVbenVxeGrid({
       ajax: {
         query: async ({ page }, formValues) => {
           return await fetchPostList({
-            pageNum: page.currentPage,
-            pageSize: page.pageSize,
+            page_num: page.currentPage,
+            page_size: page.pageSize,
             ...formValues,
           });
         },
@@ -91,8 +91,8 @@ async function onStatusChange(
   row: SystemPostApi.SystemPost,
 ) {
   const status: Recordable<string> = {
-    DISABLE: '禁用',
-    ENABLE: '启用',
+    1: '启用',
+    2: '禁用',
   };
   try {
     // await messageBox.confirm(
@@ -109,6 +109,7 @@ async function onStatusChange(
       icon: 'question',
     });
     await changePostStatus({ id: row.id, status: newStatus });
+    notification.success(`${row.name} 状态设置成功`);
     return true;
   } catch {
     return false;

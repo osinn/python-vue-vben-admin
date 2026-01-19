@@ -12,7 +12,7 @@ const collapsable = ref(true);
 // 架构图是否可缩放
 const scalable = ref(true);
 const filterText = ref();
-const props = { pid: 'parentId', label: 'name' };
+const props = { pid: 'parent_id', label: 'name' };
 const style = ref({
   background: '#fff',
   color: '#5e6d82',

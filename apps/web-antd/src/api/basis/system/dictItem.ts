@@ -9,8 +9,8 @@ export namespace SystemDictItemApi {
     dict_item_name: string;
     sort: number;
     remark?: string;
-    status?: string;
-    is_default: boolean;
+    status?: number;
+    is_default: number;
     created_by_name: string;
     created_time: string;
     updated_by_name: string;
@@ -21,9 +21,9 @@ export namespace SystemDictItemApi {
 /**
  * 获取字典所有字典项列表
  */
-async function fetchDictItemListAll(dictId: string) {
-  return requestClient.post<Array<SystemDictItemApi.SystemDictItem>>(
-    `/system/dictItem/${dictId}/fetchDictItemListAll`,
+async function fetchDictItemListAll(dict_id: string) {
+  return requestClient.get<Array<SystemDictItemApi.SystemDictItem>>(
+    `/system/dict_item/${dict_id}/get_dict_item_list_all_by_dict_id`,
   );
 }
 
@@ -34,7 +34,7 @@ async function createDictItem(
   data: Omit<SystemDictItemApi.SystemDictItem, 'id'>,
 ) {
   return requestClient.post<Array<SystemDictItemApi.SystemDictItem>>(
-    '/system/dictItem/addDictItem',
+    '/system/dict_item/add_dict_item',
     data,
   );
 }
@@ -46,8 +46,8 @@ async function updateDictItem(
   id: string,
   data: Omit<SystemDictItemApi.SystemDictItem, 'id'>,
 ) {
-  return requestClient.post<Array<SystemDictItemApi.SystemDictItem>>(
-    '/system/dictItem/editDictItem',
+  return requestClient.put<Array<SystemDictItemApi.SystemDictItem>>(
+    '/system/dict_item/edit_dict_item',
     { ...data, id },
   );
 }
@@ -57,7 +57,7 @@ async function updateDictItem(
  * @param id ID
  */
 async function deleteDictItem(id: string) {
-  return requestClient.post(`/system/dictItem/deleteDictItem`, { ids: [id] });
+  return requestClient.delete(`/system/dict_item/${id}/delete_dict_item`);
 }
 
 export { createDictItem, deleteDictItem, fetchDictItemListAll, updateDictItem };

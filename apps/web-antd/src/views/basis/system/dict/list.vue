@@ -37,7 +37,6 @@ const [FormModal, formModalApi] = useVbenModal({
 
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: {
-    fieldMappingTime: [['createdTime', ['startTime', 'endTime']]],
     schema: useGridFormSchema(),
     // 是否在字段值改变时提交表单
     submitOnChange: false,
@@ -50,8 +49,8 @@ const [Grid, gridApi] = useVbenVxeGrid({
       ajax: {
         query: async ({ page }, formValues) => {
           return await fetchDictList({
-            pageNum: page.currentPage,
-            pageSize: page.pageSize,
+            page_num: page.currentPage,
+            page_size: page.pageSize,
             ...formValues,
           });
         },
@@ -101,17 +100,18 @@ async function onStatusChange(
   row: SystemDictApi.SystemDict,
 ) {
   const status: Recordable<string> = {
-    DISABLE: '禁用',
-    ENABLE: '启用',
+    1: '启用',
+    2: '禁用',
   };
   try {
     await confirm({
       title: '切换状态',
       centered: false,
-      content: `你要将【${row.dictName}】的状态切换为 【${status[newStatus.toString()]}】 吗？`,
+      content: `你要将【${row.dict_name}】的状态切换为 【${status[newStatus.toString()]}】 吗？`,
       icon: 'question',
     });
     await changeStatus({ id: row.id, status: newStatus });
+    notification.success(`${row.dict_name} 状态设置成功`);
     return true;
   } catch {
     return false;
@@ -132,9 +132,9 @@ function onEdit(row: SystemDictApi.SystemDict) {
 
 async function onDelete(row: SystemDictApi.SystemDict) {
   try {
-    useLoading.show(`${row.dictName} 删除成功`);
+    useLoading.show(`${row.dict_name} 删除成功`);
     await deleteDict(row.id).then(() => {
-      notification.success(`${row.dictName} 删除成功`);
+      notification.success(`${row.dict_name} 删除成功`);
       onRefresh();
     });
   } finally {

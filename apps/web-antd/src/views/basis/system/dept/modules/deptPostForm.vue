@@ -13,7 +13,7 @@ import { notification } from '#/components/message/useMessage';
 import { useAddDeptPostFormSchema, useAddDeptPostSchema } from '../data';
 
 const emit = defineEmits(['success']);
-const deptId = ref();
+const dept_id = ref();
 const checkboxList = ref<SystemPostApi.SystemPost[]>([]);
 const formData = ref<SystemDeptApi.SystemDept>();
 
@@ -25,7 +25,7 @@ const [Modal, modalApi] = useVbenModal({
       const data = modalApi.getData<SystemDeptApi.SystemDept>();
       if (data) {
         formData.value = data;
-        deptId.value = data.id;
+        dept_id.value = data.id;
       }
     }
   },
@@ -35,14 +35,14 @@ const [Modal, modalApi] = useVbenModal({
       return;
     }
 
-    const postIds: String[] = [];
+    const post_ids: String[] = [];
     checkboxList.value.forEach((item) => {
-      postIds.push(item.id);
+      post_ids.push(item.id);
     });
 
     try {
       modalApi.lock();
-      await addDeptPost({ deptId: deptId.value, postIds });
+      await addDeptPost({ dept_id: dept_id.value, post_ids });
       notification.success('提交成功');
       emit('success');
       modalApi.close();
@@ -65,9 +65,9 @@ const [Grid, gridApi] = useVbenVxeGrid({
       ajax: {
         query: async ({ page }, formValues) => {
           const data = await getDeptPostListByDeptId({
-            pageNum: page.currentPage,
-            pageSize: page.pageSize,
-            deptId: deptId.value,
+            page_num: page.currentPage,
+            page_size: page.pageSize,
+            dept_id: dept_id.value,
             checked: false,
             ...formValues,
           });

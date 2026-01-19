@@ -92,6 +92,7 @@ async function onDelete(row: SystemDeptApi.SystemDept) {
  * 部门关联岗位
  */
 function onAddPost(row: SystemDeptApi.SystemDept) {
+  console.log('部门关联岗位===>', row);
   dptPostModalApi.setData(row).open();
 }
 
@@ -103,7 +104,7 @@ function onActionClick({
   row,
 }: OnActionClickParams<SystemDeptApi.SystemDept>) {
   switch (code) {
-    case 'addPost': {
+    case 'add_post': {
       onAddPost(row);
       break;
     }
@@ -119,7 +120,7 @@ function onActionClick({
       onEdit(row);
       break;
     }
-    case 'treeOrg': {
+    case 'tree_org': {
       onTreeOrg(row);
       break;
     }

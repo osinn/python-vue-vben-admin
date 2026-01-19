@@ -25,11 +25,11 @@ import DictItemForm from './dictItemForm.vue';
 
 const formData = ref<SystemDictApi.SystemDict>();
 
-const dictId = ref();
+const dict_id = ref();
 
 const getTitle = computed(() => {
-  return formData.value?.dictName
-    ? `【${formData.value?.dictName}】字典项管理`
+  return formData.value?.dict_name
+    ? `【${formData.value?.dict_name}】字典项管理`
     : '字典项管理';
 });
 const [Modal, modalApi] = useVbenModal({
@@ -42,7 +42,7 @@ const [Modal, modalApi] = useVbenModal({
       const data = modalApi.getData<SystemDictApi.SystemDict>();
       if (data) {
         formData.value = data;
-        dictId.value = data.id;
+        dict_id.value = data.id;
       }
     }
   },
@@ -62,7 +62,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) => {
-          return await fetchDictItemListAll(dictId.value);
+          return await fetchDictItemListAll(dict_id.value);
         },
       },
     },
@@ -103,9 +103,9 @@ function onEdit(row: SystemDictItemApi.SystemDictItem) {
 
 async function onDelete(row: SystemDictItemApi.SystemDictItem) {
   try {
-    useLoading.show(`${row.dictItemName} 删除成功`);
+    useLoading.show(`${row.dict_item_name} 删除成功`);
     await deleteDictItem(row.id).then(() => {
-      notification.success(`${row.dictItemName} 删除成功`);
+      notification.success(`${row.dict_item_name} 删除成功`);
       onRefresh();
     });
   } finally {
@@ -118,7 +118,7 @@ function onRefresh() {
 }
 
 function onCreate() {
-  dictItemModalApi.setData({ dictId }).open();
+  dictItemModalApi.setData({ dict_id }).open();
 }
 </script>
 <template>

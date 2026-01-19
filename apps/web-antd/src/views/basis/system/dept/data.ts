@@ -4,11 +4,11 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn } from '#/adapter/vxe-table';
 import type { SystemPostApi } from '#/api';
 import type { SystemDeptApi } from '#/api/basis/system/dept';
-
+import { OrgTypeEnum } from '#/enums/systemEnums';
 import { useAccess } from '@vben/access';
 
 import { z } from '#/adapter/form';
-import { fetchDeptAllTree, fetchOrgTypeAll } from '#/api/basis/system/dept';
+import { fetchDeptAllTree } from '#/api/basis/system/dept';
 import { fetchUserListAll } from '#/api/basis/system/user';
 
 const { hasAccessByCodes } = useAccess();
@@ -30,40 +30,39 @@ export function useSchema(): VbenFormSchema[] {
     {
       component: 'ApiTreeSelect',
       componentProps: {
-        clearable: true,
-        api: fetchDeptAllTree,
-        class: 'w-full', // 宽度100%
-        labelField: 'name',
-        valueField: 'id',
-        childrenField: 'children',
+        allowClear: true,
+        // api: fetchDeptAllTree,
+        // class: 'w-full', // 宽度100%
+      //   labelField: 'name',
+      //   valueField: 'id',
+      //   childrenField: 'children',
+      //  afterFetch: (data: any, data2: any) => {
+      //     console.log("===>",data, data2);
+      //     return data;
+      //   },
       },
-      fieldName: 'parentId',
+      fieldName: 'parent_id',
       label: '上级部门',
     },
     {
-      component: 'ApiSelect',
+      component: 'Select',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         filterable: true,
-        // 菜单接口转options格式
-        afterFetch: (data: { name: string; path: string }[]) => {
-          return data.map((item: any) => ({
-            label: item.label,
-            value: item.value,
-          }));
-        },
-        api: fetchOrgTypeAll,
+        options: OrgTypeEnum,
+        placeholder: '请选择部门类型',
         class: 'w-full',
       },
-      fieldName: 'orgType',
+      fieldName: 'org_type',
       label: '类型',
     },
     {
       component: 'ApiSelect',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         filterable: true,
-        multiple: true,
+        mode: "multiple",
+        showSearch: true,
         afterFetch: (data: { id: string; nickname: string }[]) => {
           return data.map((item: any) => ({
             label: item.nickname,
@@ -73,7 +72,7 @@ export function useSchema(): VbenFormSchema[] {
         api: fetchUserListAll,
         class: 'w-full',
       },
-      fieldName: 'deptLeaderUserIds',
+      fieldName: 'dept_leader_user_ids',
       label: '部门领导',
     },
     {
@@ -91,12 +90,12 @@ export function useSchema(): VbenFormSchema[] {
       component: 'RadioGroup',
       fieldName: 'status',
       label: '状态',
-      defaultValue: 'ENABLE',
+      defaultValue: 1,
       componentProps: {
         isButton: true,
         options: [
-          { label: '已启用', value: 'ENABLE' },
-          { label: '已禁用', value: 'DISABLE' },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 2 },
         ],
       },
     },
@@ -162,7 +161,7 @@ export function useColumns(
       showFooterOverflow: true,
     },
     {
-      field: 'createdTime',
+      field: 'created_time',
       title: '创建时间',
       width: 180,
     },
@@ -181,7 +180,7 @@ export function useColumns(
         name: 'CellOperation',
         options: [
           {
-            code: 'treeOrg',
+            code: 'tree_org',
             text: '查看组织图谱',
           },
           {
@@ -190,7 +189,7 @@ export function useColumns(
             show: hasAccessByCodes(['system:dept:add']),
           },
           {
-            code: 'addPost',
+            code: 'add_post',
             text: '关联岗位',
           },
           {
@@ -227,7 +226,7 @@ export function useDeptPostSchema<T = SystemPostApi.SystemPost>(
       width: 200,
     },
     {
-      field: 'postCode',
+      field: 'post_code',
       title: '岗位编码',
       width: 200,
     },
@@ -257,7 +256,7 @@ export function useDeptPostSchema<T = SystemPostApi.SystemPost>(
           {
             code: 'delete',
             text: '移除岗位',
-            show: hasAccessByCodes(['system:dept:post:delete']),
+            // show: hasAccessByCodes(['system:dept:post:delete']),
           },
         ],
       },
@@ -274,14 +273,14 @@ export function useAddDeptPostFormSchema(): VbenFormSchema[] {
     {
       component: 'Select',
       componentProps: {
-        clearable: true,
+        allowClear: true,
         options: [
-          { label: '已启用', value: 'ENABLE' },
-          { label: '已禁用', value: 'DISABLE' },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 2 },
         ],
         placeholder: '请选择状态',
       },
-      defaultValue: 'ENABLE',
+      defaultValue: 1,
       fieldName: 'status',
       label: '状态',
       labelWidth: 30,
@@ -302,7 +301,7 @@ export function useAddDeptPostSchema(): VxeTableGridOptions['columns'] {
       width: 200,
     },
     {
-      field: 'postCode',
+      field: 'post_code',
       title: '岗位编码',
       width: 200,
     },

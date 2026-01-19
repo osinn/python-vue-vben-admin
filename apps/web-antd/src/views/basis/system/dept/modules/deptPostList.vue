@@ -25,7 +25,7 @@ import DeptPostForm from './deptPostForm.vue';
 
 const formData = ref<SystemDeptApi.SystemDept>();
 
-const deptId = ref();
+const dept_id = ref();
 
 const [Modal, modalApi] = useVbenModal({
   draggable: true,
@@ -37,7 +37,7 @@ const [Modal, modalApi] = useVbenModal({
       const data = modalApi.getData<SystemDeptApi.SystemDept>();
       if (data) {
         formData.value = data;
-        deptId.value = data.id;
+        dept_id.value = data.id;
       }
     }
   },
@@ -54,9 +54,9 @@ const [Grid, gridApi] = useVbenVxeGrid({
       ajax: {
         query: async ({ page }, formValues) => {
           return await getDeptPostListByDeptId({
-            pageNum: page.currentPage,
-            pageSize: page.pageSize,
-            deptId: deptId.value,
+            page_num: page.currentPage,
+            page_size: page.pageSize,
+            dept_id: dept_id.value,
             checked: true,
           });
         },
@@ -95,7 +95,7 @@ function onActionClick({
 async function onDelete(row: SystemPostApi.SystemPost) {
   try {
     useLoading.show(`正在移除 ${row.name}`);
-    await deleteDeptPost({ deptId: deptId.value, postIds: [row.id] }).then(
+    await deleteDeptPost({ dept_id: dept_id.value, post_ids: [row.id] }).then(
       () => {
         notification.success(`岗位 ${row.name} 移除成功`);
         onRefresh();

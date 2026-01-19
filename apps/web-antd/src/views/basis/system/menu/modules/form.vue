@@ -84,7 +84,7 @@ const schema: VbenFormSchema[] = [
       valueField: 'id',
       childrenField: 'children',
     },
-    fieldName: 'parentId',
+    fieldName: 'parent_id',
     label: '上级菜单', // $t('system.menu.parent'),
     renderComponentContent() {
       return {
@@ -153,7 +153,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'activePath',
+    fieldName: 'active_path',
     help: '跳转到当前路由时，需要激活的菜单路径。\n当不在导航菜单中显示时，需要指定激活路径',
     label: '激活路径',
     rules: z
@@ -229,7 +229,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'linkSrc',
+    fieldName: 'link_src',
     label: '链接地址', // $t('system.menu.linkSrc'),
     rules: z.string().url('请输入有效的链接'),
   },
@@ -244,19 +244,19 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'authCode',
+    fieldName: 'auth_code',
     label: '权限标识',
   },
   {
     component: 'RadioGroup',
     fieldName: 'status',
     label: '状态',
-    defaultValue: 'ENABLE',
+    defaultValue: 1,
     componentProps: {
       isButton: true,
       options: [
-        { label: '已启用', value: 'ENABLE' },
-        { label: '已禁用', value: 'DISABLE' },
+        { label: '已启用', value: 1 },
+        { label: '已禁用', value: 2 },
       ],
     },
   },
@@ -444,9 +444,9 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (isOpen) {
       const data = drawerApi.getData<SystemMenuApi.SystemMenu>();
       if (data?.type === 'link') {
-        data.linkSrc = data.meta?.link;
+        data.link_src = data.meta?.link;
       } else if (data?.type === 'embedded') {
-        data.linkSrc = data.meta?.iframeSrc;
+        data.link_src = data.meta?.iframeSrc;
       }
       if (data) {
         if (data.parentId === 0) {
@@ -474,11 +474,11 @@ async function onSubmit() {
         Omit<SystemMenuApi.SystemMenu, 'children' | 'id'>
       >();
     if (data.type === 'link') {
-      data.meta = { ...data.meta, link: data.linkSrc };
+      data.meta = { ...data.meta, link: data.link_src };
     } else if (data.type === 'embedded') {
-      data.meta = { ...data.meta, iframeSrc: data.linkSrc };
+      data.meta = { ...data.meta, iframeSrc: data.link_src };
     }
-    delete data.linkSrc;
+    delete data.link_src;
     data.meta = JSON.stringify(data.meta);
     try {
       await (formData.value?.id
