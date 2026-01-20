@@ -57,7 +57,7 @@ export function useColumns(
       width: 100,
     },
     {
-      field: 'authCode',
+      field: 'auth_code',
       title: '权限标识', // $t('system.menu.authCode'),
       width: 200,
     },

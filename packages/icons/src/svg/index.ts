@@ -2,6 +2,7 @@ import { createIconifyIcon } from '@vben-core/icons';
 
 import './load.js';
 
+const SvgQQIcon = createIconifyIcon('svg:qq');
 const SvgAvatar1Icon = createIconifyIcon('svg:avatar-1');
 const SvgAvatar2Icon = createIconifyIcon('svg:avatar-2');
 const SvgAvatar3Icon = createIconifyIcon('svg:avatar-3');
@@ -19,6 +20,7 @@ const SvgDingDingIcon = createIconifyIcon('svg:dingding');
 const SvgTDesignIcon = createIconifyIcon('svg:tdesign-logo');
 
 export {
+  SvgQQIcon,
   SvgAntdvLogoIcon,
   SvgAvatar1Icon,
   SvgAvatar2Icon,

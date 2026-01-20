@@ -82,7 +82,7 @@ async function deleteRole(id: string) {
  * 角色授权
  */
 async function assignMenu(data: SystemRoleApi.AssignRoleMenu) {
-  return requestClient.post(`/system/role/assign_menu`, data);
+  return requestClient.put(`/system/role/assign_menu`, data);
 }
 
 export {

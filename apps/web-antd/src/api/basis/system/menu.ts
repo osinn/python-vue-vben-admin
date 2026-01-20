@@ -41,41 +41,41 @@ export namespace SystemMenuApi {
     /** 菜单元数据 */
     meta?: {
       /** 激活时显示的图标 */
-      activeIcon?: string;
+      active_icon?: string;
       /** 作为路由时，需要激活的菜单的Path */
-      activePath?: string;
+      active_path?: string;
       /** 固定在标签栏 */
-      affixTab?: boolean;
+      affix_tab?: boolean;
       /** 在标签栏固定的顺序 */
-      affixTabOrder?: number;
+      affix_tab_order?: number;
       /** 徽标内容(当徽标类型为normal时有效) */
       badge?: string;
       /** 徽标类型 */
-      badgeType?: (typeof BadgeTypes)[number];
+      badge_type?: (typeof BadgeTypes)[number];
       /** 徽标颜色 */
-      badgeVariants?: (typeof BadgeVariants)[number];
+      badge_variants?: (typeof BadgeVariants)[number];
       /** 在菜单中隐藏下级 */
-      hideChildrenInMenu?: boolean;
+      hide_children_in_menu?: boolean;
       /** 在面包屑中隐藏 */
-      hideInBreadcrumb?: boolean;
+      hide_in_breadcrumb?: boolean;
       /** 在菜单中隐藏 */
-      hideInMenu?: boolean;
+      hide_in_menu?: boolean;
       /** 在标签栏中隐藏 */
-      hideInTab?: boolean;
+      hide_in_tab?: boolean;
       /** 菜单图标 */
       icon?: string;
       /** 内嵌Iframe的URL */
-      iframeSrc?: string;
+      iframe_src?: string;
       /** 是否缓存页面 */
-      keepAlive?: boolean;
+      keep_alive?: boolean;
       /** 外链页面的URL */
       link?: string;
       /** 同一个路由最大打开的标签数 */
-      maxNumOfOpenTab?: number;
+      max_num_of_open_tab?: number;
       /** 无需基础布局 */
-      noBasicLayout?: boolean;
+      no_basic_layout?: boolean;
       /** 是否在新窗口打开 */
-      openInNewWindow?: boolean;
+      open_in_new_window?: boolean;
       /** 菜单排序 */
       order?: number;
       /** 额外的路由参数 */
@@ -120,7 +120,7 @@ async function isMenuNameExists(
   name: string,
   id?: SystemMenuApi.SystemMenu['id'],
 ) {
-  return requestClient.post<boolean>('/system/sysMenu/name-exists', {
+  return requestClient.post<boolean>('/system/menu/name-exists', {
     id,
     key: name,
   });
@@ -130,7 +130,7 @@ async function isMenuPathExists(
   path: string,
   id?: SystemMenuApi.SystemMenu['id'],
 ) {
-  return requestClient.post<boolean>('/system/sysMenu/path-exists', {
+  return requestClient.post<boolean>('/system/menu/path-exists', {
     id,
     key: path,
   });
@@ -143,7 +143,7 @@ async function isMenuPathExists(
 async function createMenu(
   data: Omit<SystemMenuApi.SystemMenu, 'children' | 'id'>,
 ) {
-  return requestClient.post('/system/sysMenu/add', data);
+  return requestClient.post('/system/menu/add_menu', data);
 }
 
 /**
@@ -156,7 +156,7 @@ async function updateMenu(
   id: string,
   data: Omit<SystemMenuApi.SystemMenu, 'children' | 'id'>,
 ) {
-  return requestClient.post(`/system/sysMenu/edit`, { ...data, id });
+  return requestClient.put(`/system/menu/edit_menu`, { ...data, id });
 }
 
 /**
@@ -164,7 +164,7 @@ async function updateMenu(
  * @param id 菜单 ID
  */
 async function deleteMenu(id: string) {
-  return requestClient.post(`/system/sysMenu/delete`, { ids: [id] });
+  return requestClient.delete(`/system/menu/${id}/delete_menu`);
 }
 
 /**
@@ -172,8 +172,8 @@ async function deleteMenu(id: string) {
  * @param id 菜单 ID
  */
 async function fetchAssignmentPermissionIdsByRoleId(roleId: string) {
-  return requestClient.post(
-    `/system/sysMenu/fetchAssignmentPermissionIdsByRoleId/${roleId}`,
+  return requestClient.get(
+    `/system/menu/get_assignment_permission_ids_by_role_id/${roleId}`,
   );
 }
 

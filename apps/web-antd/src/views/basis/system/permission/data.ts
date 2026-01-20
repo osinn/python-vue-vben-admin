@@ -23,8 +23,8 @@ export function getMenuTypeOptions() {
 
 export function getStatusOptions() {
   return [
-    { color: 'success', label: '已启用', value: 'ENABLE' },
-    { color: 'error', label: '已禁用', value: 'DISABLE' },
+    { color: 'success', label: '已启用', value: 1 },
+    { color: 'error', label: '已禁用', value: 2 },
   ];
 }
 

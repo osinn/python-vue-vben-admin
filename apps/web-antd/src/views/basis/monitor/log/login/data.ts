@@ -13,11 +13,11 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'searchKey',
+      fieldName: 'search_key',
       label: '搜索关键字',
       componentProps: {
         clearable: true,
-        placeholder: '请输入登录账号',
+        placeholder: '请输入登录用户账号/用户昵称',
       },
     },
     {
@@ -32,7 +32,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
     },
     {
       component: 'DatePicker',
-      fieldName: 'createdTime',
+      fieldName: 'created_time',
       componentProps: {
         type: 'daterange',
         clearable: true,
@@ -55,7 +55,7 @@ export function useColumns(
 ): VxeTableGridOptions<SysHttpLogApi.SysHttpLog>['columns'] {
   return [
     {
-      field: 'createdTime',
+      field: 'created_time',
       title: '登录时间',
       width: 200,
     },
@@ -72,12 +72,12 @@ export function useColumns(
       },
     },
     {
-      field: 'ipAddress',
+      field: 'ip_address',
       title: 'IP地址',
       showFooterOverflow: true,
     },
     {
-      field: 'ipAddressAttr',
+      field: 'ip_address_attr',
       title: 'IP地址归属地',
       showFooterOverflow: true,
     },

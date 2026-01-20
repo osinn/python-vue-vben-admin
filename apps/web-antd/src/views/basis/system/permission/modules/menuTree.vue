@@ -71,7 +71,8 @@ watch(
 );
 
 const dataTreeList = ref<SystemMenuApi.SystemMenu[]>([]);
-const checkedKeys = ref({ checked: [] as string[] });
+const checkedKeys = ref({ checked: [] as any[], halfChecked: [] as any[]});
+// { checked: Key[]; halfChecked: Key[]; }
 
 /** 初始化 */
 onMounted(async () => {
@@ -268,10 +269,9 @@ async function checkChangeNode(
 async function submitForm() {
   try {
     useLoading.show(`正在提交...`);
-    const checkedKeys = treeRef.value.getCheckedKeys();
     const roleAssign = {
-      roleId: props.roleId,
-      menuIds: checkedKeys,
+      role_id: props.roleId,
+      menu_ids: checkedKeys.value.checked,
     } as SystemRoleApi.AssignRoleMenu;
 
     await assignMenu(roleAssign);

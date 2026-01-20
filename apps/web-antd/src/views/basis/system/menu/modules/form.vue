@@ -195,7 +195,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.activeIcon',
+    fieldName: 'meta.active_icon',
     label: '激活图标',
     defaultValue: 'carbon:security',
   },
@@ -276,7 +276,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.badgeType',
+    fieldName: 'meta.badge_type',
     label: '徽标类型', // $t('system.menu.badgeType'),
   },
   {
@@ -313,7 +313,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.badgeVariants',
+    fieldName: 'meta.badge_variants',
     label: '徽标样式', // $t('system.menu.badgeVariants'),
   },
   {
@@ -341,7 +341,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.keepAlive',
+    fieldName: 'meta.keep_alive',
     renderComponentContent() {
       return {
         default: () => '缓存标签页',
@@ -356,7 +356,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.affixTab',
+    fieldName: 'meta.affix_tab',
     renderComponentContent() {
       return {
         default: () => '固定在标签',
@@ -371,7 +371,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.hideInMenu',
+    fieldName: 'meta.hide_in_menu',
     renderComponentContent() {
       return {
         default: () => '隐藏菜单',
@@ -386,7 +386,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.hideChildrenInMenu',
+    fieldName: 'meta.hide_children_in_menu',
     renderComponentContent() {
       return {
         default: () => '隐藏子菜单',
@@ -401,7 +401,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.hideInBreadcrumb',
+    fieldName: 'meta.hide_in_breadcrumb',
     renderComponentContent() {
       return {
         default: () => '在面包屑中隐藏',
@@ -416,7 +416,7 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'meta.hideInTab',
+    fieldName: 'meta.hide_in_tab',
     renderComponentContent() {
       return {
         default: () => '在标签栏中隐藏',
@@ -443,14 +443,15 @@ const [Drawer, drawerApi] = useVbenDrawer({
   onOpenChange(isOpen) {
     if (isOpen) {
       const data = drawerApi.getData<SystemMenuApi.SystemMenu>();
+        console.log('data', data);
       if (data?.type === 'link') {
         data.link_src = data.meta?.link;
       } else if (data?.type === 'embedded') {
-        data.link_src = data.meta?.iframeSrc;
+        data.link_src = data.meta?.iframe_src;
       }
       if (data) {
-        if (data.parentId === 0) {
-          data.parentId = undefined;
+        if (data.parent_id === 0) {
+          data.parent_id = undefined;
         }
         formData.value = data;
         formApi.setValues(formData.value);
@@ -476,7 +477,7 @@ async function onSubmit() {
     if (data.type === 'link') {
       data.meta = { ...data.meta, link: data.link_src };
     } else if (data.type === 'embedded') {
-      data.meta = { ...data.meta, iframeSrc: data.link_src };
+      data.meta = { ...data.meta, iframe_src: data.link_src };
     }
     delete data.link_src;
     data.meta = JSON.stringify(data.meta);

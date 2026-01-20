@@ -10,9 +10,10 @@ export namespace OnlineUserApi {
     nickname: string;
     browser: string;
     ip: string;
-    loginTime: string;
-    loginSource: string;
-    hasAdmin: boolean;
+    login_time: string;
+    login_source: string;
+    is_admin: boolean;
+    sub: string;
   }
 }
 
@@ -20,23 +21,23 @@ export namespace OnlineUserApi {
  * 获取所有在线用户
  */
 async function getOnlineUserAll() {
-  return requestClient.post<Array<OnlineUserApi.OnlineUser>>(
-    '/onlineUser/getOnlineUserAll',
+  return requestClient.get<Array<OnlineUserApi.OnlineUser>>(
+    '/online_user/get_online_user_all',
   );
 }
 
 /**
  * 在线用户下线
  */
-async function onlineUserOffline(data: Recordable<any>) {
-  return requestClient.post<any>('/onlineUser/offline', data);
+async function onlineUserOffline(sub: string) {
+  return requestClient.put<any>(`/online_user/${sub}/offline`);
 }
 
 /**
  * 刷新在线用户权限
  */
-async function refreshOnlineUserPermission(data: Recordable<any>) {
-  return requestClient.post<any>('/onlineUser/offline', data);
+async function refreshOnlineUserPermission(sub: string) {
+  return requestClient.put<any>(`/online_user/${sub}/refresh_user_permission`);
 }
 
 export { getOnlineUserAll, onlineUserOffline, refreshOnlineUserPermission };

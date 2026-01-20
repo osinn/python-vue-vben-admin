@@ -28,7 +28,7 @@ const onlineCount = ref(0);
 async function onOnline(row: OnlineUserApi.OnlineUser) {
   try {
     useLoading.show(`${row.nickname} 正在下线...`);
-    await onlineUserOffline({ ids: [row.id] }).then(() => {
+    await onlineUserOffline(row.sub).then(() => {
       notification.success(`${row.nickname} 下线成功`);
       onRefresh();
     });
@@ -44,7 +44,7 @@ async function onOnline(row: OnlineUserApi.OnlineUser) {
 async function onRefreshPermission(row: OnlineUserApi.OnlineUser) {
   try {
     useLoading.show(`${row.nickname} 正在刷新权限...`);
-    await refreshOnlineUserPermission({ ids: [row.id] }).then(() => {
+    await refreshOnlineUserPermission(row.sub).then(() => {
       notification.success(`${row.nickname} 权限刷新成功`);
     });
   } finally {

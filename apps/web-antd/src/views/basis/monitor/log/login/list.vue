@@ -39,7 +39,13 @@ function onAppend(row: SysHttpLogApi.SysHttpLog) {
 const [Grid] = useVbenVxeGrid({
   gridEvents: {},
   formOptions: {
-    fieldMappingTime: [['createdTime', ['startTime', 'endTime']]],
+    fieldMappingTime: [
+      [
+        'created_time',
+        ['start_created_time', 'end_created_time'],
+        ['YYYY-MM-DD 00:00:00', 'YYYY-MM-DD 23:59:59'],
+      ],
+    ],
     schema: useGridFormSchema(),
     // 是否在字段值改变时提交表单
     submitOnChange: false,

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SystemRoleApi } from '#/api';
 
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, nextTick } from 'vue';
 
 import { ColPage } from '@vben/common-ui';
 import { EmptyIcon } from '@vben/icons';
@@ -30,12 +30,15 @@ const roleList = ref<SystemRoleApi.SystemRole[]>([]);
 
 onMounted(async () => {
   try {
-    roleList.value = await fetchRoleListAll({ status: 'ENABLE' });
+    roleList.value = await fetchRoleListAll({ status: 1 });
     if (roleList.value && roleList.value.length > 0) {
       const roleItem = roleList.value[0];
       roleId.value = roleItem?.id;
       if (roleItem) {
-        changeRole(roleItem);
+        // await nextTick();
+        setTimeout(() => {
+          changeRole(roleItem);
+        }, 100);
       }
     }
   } finally {
@@ -50,7 +53,7 @@ const filteredRoleList = computed(() => {
 });
 
 const changeRole = (roleItem: SystemRoleApi.SystemRole) => {
-  isAdminRole.value = roleItem?.roleCode === 'admin';
+  isAdminRole.value = roleItem?.role_code === 'admin';
 };
 </script>
 <template>

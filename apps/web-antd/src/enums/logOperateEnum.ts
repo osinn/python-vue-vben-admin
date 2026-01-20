@@ -55,12 +55,12 @@ export const OperateTypeEnum = [
 export const OperateStatusEnum = [
   {
     label: '成功',
-    value: true,
+    value: 1,
     color: 'success',
   },
   {
     label: '失败',
-    value: false,
+    value: 2,
     color: 'red',
   },
 ];

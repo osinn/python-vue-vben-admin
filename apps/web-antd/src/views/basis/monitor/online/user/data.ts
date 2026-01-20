@@ -29,7 +29,7 @@ export function useColumns(
       title: '名称',
     },
     {
-      field: 'loginTime',
+      field: 'login_time',
       title: '登录时间',
     },
     {
@@ -38,12 +38,12 @@ export function useColumns(
       showFooterOverflow: true,
     },
     {
-      field: 'operatingSystem',
+      field: 'operating_system',
       title: '操作系统',
       showFooterOverflow: true,
       slots: {
         default: ({ row }) => {
-          return renderOsIcon(row.operatingSystem, true) as VNode;
+          return renderOsIcon(row.operating_system, true) as VNode;
         },
       },
     },

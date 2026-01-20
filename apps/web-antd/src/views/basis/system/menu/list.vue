@@ -68,7 +68,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
       zoom: true,
     },
     treeConfig: {
-      parentField: 'parentId',
+      parentField: 'parent_id',
       rowField: 'id',
       transform: false,
     },
@@ -108,7 +108,7 @@ function onCreate() {
   formDrawerApi.setData({}).open();
 }
 function onAppend(row: SystemMenuApi.SystemMenu) {
-  formDrawerApi.setData({ parentId: row.id }).open();
+  formDrawerApi.setData({ parent_id: row.id }).open();
 }
 
 async function onDelete(row: SystemMenuApi.SystemMenu) {

@@ -6,29 +6,29 @@ export namespace SysHttpLogApi {
     /** 日志ID */
     id: string;
     /** 用户id */
-    userId: string;
+    user_id: string;
     /** 用户账号 */
     account: string;
     /** 用户名称 */
     nickname: string;
     /** ip地址 */
-    ipAddress: string;
+    ip_address: string;
     /** ip地址归属地 */
-    ipAddressAttr: string;
+    ip_address_attr: string;
     /** 请求uri */
-    requestUri: string;
+    request_uri: string;
     /** 请求参数 */
-    requestParams: any;
+    request_params: any;
     /** 请求类型：POST/GET */
-    requestMethod: string;
+    request_method: string;
     /** 操作方法 */
-    classMethod: string;
+    class_method: string;
     /** 状态 true-成功 false-失败 */
     status: boolean;
     /**  执行时间分秒格式： 00:00 */
-    executionTime: string;
+    execution_time: string;
     /** 异常信息 */
-    exceptionMsg: string;
+    exception_msg: string;
     /** 浏览器类型 */
     browser: string;
     /** 操作系统 */
@@ -36,21 +36,21 @@ export namespace SysHttpLogApi {
     /** 日志来源 */
     source: string;
     /** 日志类型 */
-    logType: string;
+    log_type: string;
     /** 动作描述 */
-    actionDesc: string;
+    action_desc: string;
     /** 业务模块：业务模块主要是用在业务中台，区分业务，例如车辆模块、商城模块 */
-    businessModule: string;
+    business_module: string;
     /** 日志模块名称 业务模块下面的具体模块菜单-例如-用户管理 */
-    moduleName: string;
+    module_name: string;
     /** 操作类型 */
-    operateType: string;
+    operate_type: string;
     /** 是否是移动端请求，true-是，false-不是 */
     mobile: boolean;
     /** 创建时间 */
-    createdTime: string;
+    created_time: string;
     /** 响应结果数据 */
-    resultData?: any;
+    result_data?: any;
   }
 
   export interface SysHttpLogPageParam {
@@ -71,10 +71,10 @@ export namespace SysHttpLogApi {
 /**
  * 获取系统请求日志
  */
-async function getSysHttpLogList(data: SysHttpLogApi.SysHttpLogPageParam) {
+async function getSysHttpLogList(params: SysHttpLogApi.SysHttpLogPageParam) {
   return requestClient.post<Array<SysHttpLogApi.SysHttpLog>>(
-    '/sysHttpLog/getSysHttpLogList',
-    data,
+    '/log/get_login_log_info_list',
+    params
   );
 }
 
