@@ -24,23 +24,23 @@ const routes: RouteRecordRaw[] = [
     name: 'VbenProject',
     path: '/vben-admin',
     children: [
-      {
-        name: 'VbenDocument',
-        path: '/vben-admin/document',
-        component: IFrameView,
-        meta: {
-          icon: 'lucide:book-open-text',
-          link: VBEN_DOC_URL,
-          title: $t('demos.vben.document'),
-        },
-      },
+      // {
+      //   name: 'VbenDocument',
+      //   path: '/vben-admin/document',
+      //   component: IFrameView,
+      //   meta: {
+      //     icon: 'lucide:book-open-text',
+      //     link: VBEN_DOC_URL,
+      //     title: $t('demos.vben.document'),
+      //   },
+      // },
       {
         name: 'VbenGithub',
         path: '/vben-admin/github',
         component: IFrameView,
         meta: {
           icon: 'mdi:github',
-          link: VBEN_GITHUB_URL,
+          link: "https://github.com/osinn/python-admin-vben",//VBEN_GITHUB_URL,
           title: 'Github',
         },
       },

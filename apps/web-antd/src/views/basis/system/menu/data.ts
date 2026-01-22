@@ -78,7 +78,7 @@ export function useColumns(
             return row.component ?? '';
           }
           case 'embedded': {
-            return row.meta?.iframeSrc ?? '';
+            return row.meta?.iframe_src ?? '';
           }
           case 'link': {
             return row.meta?.link ?? '';

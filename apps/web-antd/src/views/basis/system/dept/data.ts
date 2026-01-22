@@ -179,10 +179,10 @@ export function useColumns(
         },
         name: 'CellOperation',
         options: [
-          {
-            code: 'tree_org',
-            text: '查看组织图谱',
-          },
+          // {
+          //   code: 'tree_org',
+          //   text: '查看组织图谱',
+          // },
           {
             code: 'append',
             text: '新增下级',

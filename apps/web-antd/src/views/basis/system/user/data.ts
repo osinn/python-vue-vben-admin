@@ -387,7 +387,7 @@ export function useColumns<T = SystemUserApi.SystemUser>(
             code: 'delete',
             show: hasAccessByCodes(['system:user:delete']),
             disabled: (row: SystemUserApi.SystemUser) => {
-              return row.isDefault;
+              return row.is_default === 1;
             },
           },
         ],

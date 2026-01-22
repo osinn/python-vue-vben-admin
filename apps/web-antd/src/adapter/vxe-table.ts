@@ -255,7 +255,7 @@ setupVbenVxeTable({
                 return document.body;
               },
               placement: 'topLeft',
-              title: $t('ui.actionTitle.delete', [attrs?.nameTitle || '']),
+              title: opt.actionTitle ? opt.actionTitle : $t('ui.actionTitle.delete', [attrs?.nameTitle || '']),
               ...props,
               ...opt,
               icon: undefined,
@@ -280,7 +280,7 @@ setupVbenVxeTable({
                 h(
                   'div',
                   { class: 'truncate' },
-                  $t('ui.actionMessage.deleteConfirm', [
+                  opt.actionMessage ? opt.actionMessage : $t('ui.actionMessage.deleteConfirm', [
                     row[attrs?.nameField || 'name'],
                   ]),
                 ),
@@ -288,8 +288,13 @@ setupVbenVxeTable({
           );
         }
 
+        // const btns = operations.map((opt) =>
+        //   opt.code === 'delete' ? renderConfirm(opt) : renderBtn(opt),
+        // );
         const btns = operations.map((opt) =>
-          opt.code === 'delete' ? renderConfirm(opt) : renderBtn(opt),
+          opt.code === 'delete' || opt.confirmBtn
+            ? renderConfirm(opt)
+            : renderBtn(opt),
         );
         return h(
           'div',

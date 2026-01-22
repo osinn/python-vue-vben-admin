@@ -121,6 +121,7 @@ const authLogin = async (values: Record<string, any>) => {
     :show-register="false"
     :show-third-party-login="false"
     :show-remember-me="true"
+    :subTitle="`账号：demo 密码：123456`"
     @submit="authLogin"
   />
 </template>
