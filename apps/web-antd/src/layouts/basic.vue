@@ -104,6 +104,16 @@ const menus = computed(() => [
   {
     handler: () => {
       // openWindow(VBEN_GITHUB_URL, {
+      openWindow("https://www.cnblogs.com/osinn", {
+        target: '_blank',
+      });
+    },
+    icon: BookOpenText,
+    text: '个人博客',
+  },
+  {
+    handler: () => {
+      // openWindow(VBEN_GITHUB_URL, {
       openWindow("https://github.com/osinn/python-admin-vben", {
         target: '_blank',
       });
