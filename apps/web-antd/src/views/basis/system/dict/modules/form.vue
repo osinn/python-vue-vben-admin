@@ -31,8 +31,9 @@ const [Drawer, drawerApi] = useVbenDrawer({
     drawerApi.lock();
     (id.value ? updateDict(id.value, values) : createDict(values))
       .then(() => {
+        console.log('新增字典', JSON.stringify(values));
         notification.success(
-          `${formData.value?.id ? `编辑【${formData.value?.dict_name}】成功` : `新增【${formData.value?.dict_name}】成功`}`,
+          `${formData.value?.id ? `编辑【${values?.dict_name}】成功` : `新增【${values?.dict_name}】成功`}`,
         );
         drawerApi.close();
         emit('success');
